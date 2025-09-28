@@ -119,10 +119,10 @@ jobs:
             echo "Changes detected after generation:"
             git status
             git diff
-            echo "no_changes=false" >> $GITHUB_OUTPUT
+            echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "No changes detected after generation."
-            echo "no_changes=true" >> $GITHUB_OUTPUT
+            echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Parse version
@@ -143,7 +143,7 @@ jobs:
           hashes: ${{ needs.compare-versions.outputs.hashes }}
           api_name: ${{ matrix.api_name }}
           api_version: ${{ steps.parse-version.outputs.api_version }}
-          no_changes: ${{ steps.detect-changes.outputs.no_changes }}
+          has_changes: ${{ steps.detect-changes.outputs.has_changes }}
         run: |
           import datetime
           import json
@@ -153,7 +153,7 @@ jobs:
           hashes = os.environ['hashes']
           api_name = os.environ['api_name']
           api_version = os.environ['api_version']
-          no_changes = os.environ['no_changes']
+          has_changes = os.environ['has_changes']
 
           api_index = apis.split().index(api_name)
           api_hash = hashes.split()[api_index]
@@ -166,16 +166,15 @@ jobs:
             data = json.load(f)
 
           data[api_name]['source_hash'] = api_hash
-          if no_changes == 'false':
+          print(f"Set source_hash for {api_name} to {api_hash}")
+          if has_changes:
+            print(f"Changes detected for {api_name}, updating version info")
             data[api_name]['schema_version'] = f"{api_version}+{digits_date}"
             data[api_name]['source_version'] = api_version
             data[api_name]['updated_at'] = iso_date
 
           with open('schemas.json', 'w') as f:
             json.dump(data, f, indent=2)
-
-      - name: Show updated schemas.json
-        run: cat schemas.json
 
       - name: Create Pull Request with current (uncommitted) changes
         uses: peter-evans/create-pull-request@v7
