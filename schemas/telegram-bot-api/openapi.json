@@ -3,7 +3,7 @@
   "info": {
     "title": "Telegram Bot API",
     "description": "Auto-generated OpenAPI schema by TGScraper.",
-    "version": "9.2.0"
+    "version": "9.5.0"
   },
   "servers": [
     {
@@ -331,6 +331,12 @@
           },
           "has_main_web_app": {
             "type": "boolean"
+          },
+          "has_topics_enabled": {
+            "type": "boolean"
+          },
+          "allows_users_to_create_topics": {
+            "type": "boolean"
           }
         },
         "type": "object"
@@ -539,6 +545,18 @@
           },
           "location": {
             "$ref": "#/components/schemas/ChatLocation"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/UserRating"
+          },
+          "first_profile_audio": {
+            "$ref": "#/components/schemas/Audio"
+          },
+          "unique_gift_colors": {
+            "$ref": "#/components/schemas/UniqueGiftColors"
+          },
+          "paid_message_star_count": {
+            "type": "integer"
           }
         },
         "type": "object"
@@ -571,6 +589,9 @@
           },
           "sender_business_bot": {
             "$ref": "#/components/schemas/User"
+          },
+          "sender_tag": {
+            "type": "string"
           },
           "date": {
             "type": "integer"
@@ -732,6 +753,12 @@
           "left_chat_member": {
             "$ref": "#/components/schemas/User"
           },
+          "chat_owner_left": {
+            "$ref": "#/components/schemas/ChatOwnerLeft"
+          },
+          "chat_owner_changed": {
+            "$ref": "#/components/schemas/ChatOwnerChanged"
+          },
           "new_chat_title": {
             "type": "string"
           },
@@ -789,6 +816,9 @@
           },
           "unique_gift": {
             "$ref": "#/components/schemas/UniqueGiftInfo"
+          },
+          "gift_upgrade_sent": {
+            "$ref": "#/components/schemas/GiftInfo"
           },
           "connected_website": {
             "type": "string"
@@ -956,6 +986,12 @@
             "type": "string"
           },
           "custom_emoji_id": {
+            "type": "string"
+          },
+          "unix_time": {
+            "type": "integer"
+          },
+          "date_time_format": {
             "type": "string"
           }
         },
@@ -1374,6 +1410,37 @@
         },
         "type": "object"
       },
+      "VideoQuality": {
+        "description": "This object represents a video file of a specific quality.",
+        "required": [
+          "file_id",
+          "file_unique_id",
+          "width",
+          "height",
+          "codec"
+        ],
+        "properties": {
+          "file_id": {
+            "type": "string"
+          },
+          "file_unique_id": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "codec": {
+            "type": "string"
+          },
+          "file_size": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
       "Video": {
         "description": "This object represents a video file.",
         "required": [
@@ -1410,6 +1477,12 @@
           },
           "start_timestamp": {
             "type": "integer"
+          },
+          "qualities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoQuality"
+            }
           },
           "file_name": {
             "type": "string"
@@ -1765,6 +1838,9 @@
           },
           "completed_by_user": {
             "$ref": "#/components/schemas/User"
+          },
+          "completed_by_chat": {
+            "$ref": "#/components/schemas/Chat"
           },
           "completion_date": {
             "type": "integer"
@@ -2236,6 +2312,10 @@
           },
           "icon_custom_emoji_id": {
             "type": "string"
+          },
+          "is_name_implicit": {
+            "type": "boolean",
+            "default": true
           }
         },
         "type": "object"
@@ -2743,6 +2823,25 @@
         },
         "type": "object"
       },
+      "UserProfileAudios": {
+        "description": "This object represents the audios displayed on a user's profile.",
+        "required": [
+          "total_count",
+          "audios"
+        ],
+        "properties": {
+          "total_count": {
+            "type": "integer"
+          },
+          "audios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Audio"
+            }
+          }
+        },
+        "type": "object"
+      },
       "File": {
         "description": "This object represents a file ready to be downloaded. The file can be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile.",
         "required": [
@@ -2811,12 +2910,18 @@
         "type": "object"
       },
       "KeyboardButton": {
-        "description": "This object represents one button of the reply keyboard. At most one of the optional fields must be used to specify type of the button. For simple text buttons, String can be used instead of this object to specify the button text.",
+        "description": "This object represents one button of the reply keyboard. At most one of the fields other than text, icon_custom_emoji_id, and style must be used to specify the type of the button. For simple text buttons, String can be used instead of this object to specify the button text.",
         "required": [
           "text"
         ],
         "properties": {
           "text": {
+            "type": "string"
+          },
+          "icon_custom_emoji_id": {
+            "type": "string"
+          },
+          "style": {
             "type": "string"
           },
           "request_users": {
@@ -2958,12 +3063,18 @@
         "type": "object"
       },
       "InlineKeyboardButton": {
-        "description": "This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.",
+        "description": "This object represents one button of an inline keyboard. Exactly one of the fields other than text, icon_custom_emoji_id, and style must be used to specify the type of the button.",
         "required": [
           "text"
         ],
         "properties": {
           "text": {
+            "type": "string"
+          },
+          "icon_custom_emoji_id": {
+            "type": "string"
+          },
+          "style": {
             "type": "string"
           },
           "url": {
@@ -3237,6 +3348,9 @@
           },
           "can_manage_direct_messages": {
             "type": "boolean"
+          },
+          "can_manage_tags": {
+            "type": "boolean"
           }
         },
         "type": "object"
@@ -3400,6 +3514,9 @@
           "can_manage_direct_messages": {
             "type": "boolean"
           },
+          "can_manage_tags": {
+            "type": "boolean"
+          },
           "custom_title": {
             "type": "string"
           }
@@ -3414,6 +3531,9 @@
         ],
         "properties": {
           "status": {
+            "type": "string"
+          },
+          "tag": {
             "type": "string"
           },
           "user": {
@@ -3441,6 +3561,7 @@
           "can_send_polls",
           "can_send_other_messages",
           "can_add_web_page_previews",
+          "can_edit_tag",
           "can_change_info",
           "can_invite_users",
           "can_pin_messages",
@@ -3449,6 +3570,9 @@
         ],
         "properties": {
           "status": {
+            "type": "string"
+          },
+          "tag": {
             "type": "string"
           },
           "user": {
@@ -3485,6 +3609,9 @@
             "type": "boolean"
           },
           "can_add_web_page_previews": {
+            "type": "boolean"
+          },
+          "can_edit_tag": {
             "type": "boolean"
           },
           "can_change_info": {
@@ -3604,6 +3731,9 @@
           "can_add_web_page_previews": {
             "type": "boolean"
           },
+          "can_edit_tag": {
+            "type": "boolean"
+          },
           "can_change_info": {
             "type": "boolean"
           },
@@ -3699,6 +3829,29 @@
             "items": {
               "$ref": "#/components/schemas/BusinessOpeningHoursInterval"
             }
+          }
+        },
+        "type": "object"
+      },
+      "UserRating": {
+        "description": "This object describes the rating of a user based on their Telegram Star spendings.",
+        "required": [
+          "level",
+          "rating",
+          "current_level_rating"
+        ],
+        "properties": {
+          "level": {
+            "type": "integer"
+          },
+          "rating": {
+            "type": "integer"
+          },
+          "current_level_rating": {
+            "type": "integer"
+          },
+          "next_level_rating": {
+            "type": "integer"
           }
         },
         "type": "object"
@@ -4069,6 +4222,30 @@
           },
           "icon_custom_emoji_id": {
             "type": "string"
+          },
+          "is_name_implicit": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "type": "object"
+      },
+      "GiftBackground": {
+        "description": "This object describes the background of a gift.",
+        "required": [
+          "center_color",
+          "edge_color",
+          "text_color"
+        ],
+        "properties": {
+          "center_color": {
+            "type": "integer"
+          },
+          "edge_color": {
+            "type": "integer"
+          },
+          "text_color": {
+            "type": "integer"
           }
         },
         "type": "object"
@@ -4093,10 +4270,30 @@
           "upgrade_star_count": {
             "type": "integer"
           },
+          "is_premium": {
+            "type": "boolean",
+            "default": true
+          },
+          "has_colors": {
+            "type": "boolean",
+            "default": true
+          },
           "total_count": {
             "type": "integer"
           },
           "remaining_count": {
+            "type": "integer"
+          },
+          "personal_total_count": {
+            "type": "integer"
+          },
+          "personal_remaining_count": {
+            "type": "integer"
+          },
+          "background": {
+            "$ref": "#/components/schemas/GiftBackground"
+          },
+          "unique_gift_variant_count": {
             "type": "integer"
           },
           "publisher_chat": {
@@ -4136,6 +4333,9 @@
           },
           "rarity_per_mille": {
             "type": "integer"
+          },
+          "rarity": {
+            "type": "string"
           }
         },
         "type": "object"
@@ -4204,9 +4404,48 @@
         },
         "type": "object"
       },
+      "UniqueGiftColors": {
+        "description": "This object contains information about the color scheme for a user's name, message replies and link previews based on a unique gift.",
+        "required": [
+          "model_custom_emoji_id",
+          "symbol_custom_emoji_id",
+          "light_theme_main_color",
+          "light_theme_other_colors",
+          "dark_theme_main_color",
+          "dark_theme_other_colors"
+        ],
+        "properties": {
+          "model_custom_emoji_id": {
+            "type": "string"
+          },
+          "symbol_custom_emoji_id": {
+            "type": "string"
+          },
+          "light_theme_main_color": {
+            "type": "integer"
+          },
+          "light_theme_other_colors": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "dark_theme_main_color": {
+            "type": "integer"
+          },
+          "dark_theme_other_colors": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "type": "object"
+      },
       "UniqueGift": {
         "description": "This object describes a unique gift that was upgraded from a regular gift.",
         "required": [
+          "gift_id",
           "base_name",
           "name",
           "number",
@@ -4215,6 +4454,9 @@
           "backdrop"
         ],
         "properties": {
+          "gift_id": {
+            "type": "string"
+          },
           "base_name": {
             "type": "string"
           },
@@ -4232,6 +4474,21 @@
           },
           "backdrop": {
             "$ref": "#/components/schemas/UniqueGiftBackdrop"
+          },
+          "is_premium": {
+            "type": "boolean",
+            "default": true
+          },
+          "is_burned": {
+            "type": "boolean",
+            "default": true
+          },
+          "is_from_blockchain": {
+            "type": "boolean",
+            "default": true
+          },
+          "colors": {
+            "$ref": "#/components/schemas/UniqueGiftColors"
           },
           "publisher_chat": {
             "$ref": "#/components/schemas/Chat"
@@ -4257,6 +4514,10 @@
           "prepaid_upgrade_star_count": {
             "type": "integer"
           },
+          "is_upgrade_separate": {
+            "type": "boolean",
+            "default": true
+          },
           "can_be_upgraded": {
             "type": "boolean",
             "default": true
@@ -4273,6 +4534,9 @@
           "is_private": {
             "type": "boolean",
             "default": true
+          },
+          "unique_gift_number": {
+            "type": "integer"
           }
         },
         "type": "object"
@@ -4290,7 +4554,10 @@
           "origin": {
             "type": "string"
           },
-          "last_resale_star_count": {
+          "last_resale_currency": {
+            "type": "string"
+          },
+          "last_resale_amount": {
             "type": "integer"
           },
           "owned_gift_id": {
@@ -4369,6 +4636,13 @@
           },
           "prepaid_upgrade_star_count": {
             "type": "integer"
+          },
+          "is_upgrade_separate": {
+            "type": "boolean",
+            "default": true
+          },
+          "unique_gift_number": {
+            "type": "integer"
           }
         },
         "type": "object"
@@ -4441,7 +4715,8 @@
           "unlimited_gifts",
           "limited_gifts",
           "unique_gifts",
-          "premium_subscription"
+          "premium_subscription",
+          "gifts_from_channels"
         ],
         "properties": {
           "unlimited_gifts": {
@@ -4454,6 +4729,9 @@
             "type": "boolean"
           },
           "premium_subscription": {
+            "type": "boolean"
+          },
+          "gifts_from_channels": {
             "type": "boolean"
           }
         },
@@ -4873,6 +5151,27 @@
           },
           "source": {
             "$ref": "#/components/schemas/ChatBoostSource"
+          }
+        },
+        "type": "object"
+      },
+      "ChatOwnerLeft": {
+        "description": "Describes a service message about the chat owner leaving the chat.",
+        "properties": {
+          "new_owner": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "type": "object"
+      },
+      "ChatOwnerChanged": {
+        "description": "Describes a service message about an ownership change in the chat.",
+        "required": [
+          "new_owner"
+        ],
+        "properties": {
+          "new_owner": {
+            "$ref": "#/components/schemas/User"
           }
         },
         "type": "object"
@@ -8922,6 +9221,9 @@
                   "protect_content": {
                     "type": "boolean"
                   },
+                  "message_effect_id": {
+                    "type": "string"
+                  },
                   "suggested_post_parameters": {
                     "$ref": "#/components/schemas/SuggestedPostParameters"
                   },
@@ -8975,6 +9277,9 @@
                   "protect_content": {
                     "type": "boolean"
                   },
+                  "message_effect_id": {
+                    "type": "string"
+                  },
                   "suggested_post_parameters": {
                     "$ref": "#/components/schemas/SuggestedPostParameters"
                   },
@@ -9027,6 +9332,9 @@
                   },
                   "protect_content": {
                     "type": "boolean"
+                  },
+                  "message_effect_id": {
+                    "type": "string"
                   },
                   "suggested_post_parameters": {
                     "$ref": "#/components/schemas/SuggestedPostParameters"
@@ -9371,6 +9679,9 @@
                   "allow_paid_broadcast": {
                     "type": "boolean"
                   },
+                  "message_effect_id": {
+                    "type": "string"
+                  },
                   "suggested_post_parameters": {
                     "$ref": "#/components/schemas/SuggestedPostParameters"
                   },
@@ -9461,6 +9772,9 @@
                   "allow_paid_broadcast": {
                     "type": "boolean"
                   },
+                  "message_effect_id": {
+                    "type": "string"
+                  },
                   "suggested_post_parameters": {
                     "$ref": "#/components/schemas/SuggestedPostParameters"
                   },
@@ -9550,6 +9864,9 @@
                   },
                   "allow_paid_broadcast": {
                     "type": "boolean"
+                  },
+                  "message_effect_id": {
+                    "type": "string"
                   },
                   "suggested_post_parameters": {
                     "$ref": "#/components/schemas/SuggestedPostParameters"
@@ -14717,6 +15034,163 @@
         }
       }
     },
+    "/sendMessageDraft": {
+      "description": "Use this method to stream a partial message to a user while the message is being generated. Returns True on success.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id",
+                  "draft_id",
+                  "text"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "type": "integer"
+                  },
+                  "message_thread_id": {
+                    "type": "integer"
+                  },
+                  "draft_id": {
+                    "type": "integer"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "parse_mode": {
+                    "type": "string"
+                  },
+                  "entities": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/MessageEntity"
+                    }
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id",
+                  "draft_id",
+                  "text"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "type": "integer"
+                  },
+                  "message_thread_id": {
+                    "type": "integer"
+                  },
+                  "draft_id": {
+                    "type": "integer"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "parse_mode": {
+                    "type": "string"
+                  },
+                  "entities": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/MessageEntity"
+                    }
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id",
+                  "draft_id",
+                  "text"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "type": "integer"
+                  },
+                  "message_thread_id": {
+                    "type": "integer"
+                  },
+                  "draft_id": {
+                    "type": "integer"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "parse_mode": {
+                    "type": "string"
+                  },
+                  "entities": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/MessageEntity"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
     "/sendChatAction": {
       "description": "Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.\nWe only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.",
       "post": {
@@ -15105,6 +15579,124 @@
                       "properties": {
                         "result": {
                           "$ref": "#/components/schemas/UserProfilePhotos"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/getUserProfileAudios": {
+      "description": "Use this method to get a list of profile audios for a user. Returns a UserProfileAudios object.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_id"
+                ],
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "type": "integer"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_id"
+                ],
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "type": "integer"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_id"
+                ],
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "type": "integer"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "$ref": "#/components/schemas/UserProfileAudios"
                         }
                       }
                     }
@@ -15839,7 +16431,8 @@
                     "type": "boolean"
                   },
                   "can_restrict_members": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": true
                   },
                   "can_promote_members": {
                     "type": "boolean"
@@ -15872,6 +16465,9 @@
                     "type": "boolean"
                   },
                   "can_manage_direct_messages": {
+                    "type": "boolean"
+                  },
+                  "can_manage_tags": {
                     "type": "boolean"
                   }
                 }
@@ -15911,7 +16507,8 @@
                     "type": "boolean"
                   },
                   "can_restrict_members": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": true
                   },
                   "can_promote_members": {
                     "type": "boolean"
@@ -15944,6 +16541,9 @@
                     "type": "boolean"
                   },
                   "can_manage_direct_messages": {
+                    "type": "boolean"
+                  },
+                  "can_manage_tags": {
                     "type": "boolean"
                   }
                 }
@@ -15983,7 +16583,8 @@
                     "type": "boolean"
                   },
                   "can_restrict_members": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": true
                   },
                   "can_promote_members": {
                     "type": "boolean"
@@ -16016,6 +16617,9 @@
                     "type": "boolean"
                   },
                   "can_manage_direct_messages": {
+                    "type": "boolean"
+                  },
+                  "can_manage_tags": {
                     "type": "boolean"
                   }
                 }
@@ -16158,6 +16762,145 @@
                     "type": "integer"
                   },
                   "custom_title": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/setChatMemberTag": {
+      "description": "Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an administrator in the chat for this to work and must have the can_manage_tags administrator right. Returns True on success.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id",
+                  "user_id"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "tag": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id",
+                  "user_id"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "tag": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id",
+                  "user_id"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "tag": {
                     "type": "string"
                   }
                 }
@@ -19568,7 +20311,7 @@
       }
     },
     "/createForumTopic": {
-      "description": "Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.",
+      "description": "Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator right. Returns information about the created topic as a ForumTopic object.",
       "post": {
         "requestBody": {
           "required": true,
@@ -19716,7 +20459,7 @@
       }
     },
     "/editForumTopic": {
-      "description": "Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.",
+      "description": "Use this method to edit name and icon of a topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.",
       "post": {
         "requestBody": {
           "required": true,
@@ -20124,7 +20867,7 @@
       }
     },
     "/deleteForumTopic": {
-      "description": "Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.",
+      "description": "Use this method to delete a forum topic along with all its messages in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.",
       "post": {
         "requestBody": {
           "required": true,
@@ -20254,7 +20997,7 @@
       }
     },
     "/unpinAllForumTopicMessages": {
-      "description": "Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.",
+      "description": "Use this method to clear the list of pinned messages in a forum topic in a forum supergroup chat or a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.",
       "post": {
         "requestBody": {
           "required": true,
@@ -22305,6 +23048,175 @@
                       "properties": {
                         "result": {
                           "$ref": "#/components/schemas/BotShortDescription"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/setMyProfilePhoto": {
+      "description": "Changes the profile photo of the bot. Returns True on success.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "photo"
+                ],
+                "properties": {
+                  "photo": {
+                    "$ref": "#/components/schemas/InputProfilePhoto"
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "photo"
+                ],
+                "properties": {
+                  "photo": {
+                    "$ref": "#/components/schemas/InputProfilePhoto"
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "photo"
+                ],
+                "properties": {
+                  "photo": {
+                    "$ref": "#/components/schemas/InputProfilePhoto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/removeMyProfilePhoto": {
+      "description": "Removes the profile photo of the bot. Requires no parameters. Returns True on success.",
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "boolean"
                         }
                       }
                     }
@@ -24712,10 +25624,16 @@
                   "exclude_unlimited": {
                     "type": "boolean"
                   },
-                  "exclude_limited": {
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
                     "type": "boolean"
                   },
                   "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
                     "type": "boolean"
                   },
                   "sort_by_price": {
@@ -24750,10 +25668,16 @@
                   "exclude_unlimited": {
                     "type": "boolean"
                   },
-                  "exclude_limited": {
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
                     "type": "boolean"
                   },
                   "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
                     "type": "boolean"
                   },
                   "sort_by_price": {
@@ -24788,7 +25712,396 @@
                   "exclude_unlimited": {
                     "type": "boolean"
                   },
-                  "exclude_limited": {
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
+                    "type": "boolean"
+                  },
+                  "sort_by_price": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "$ref": "#/components/schemas/OwnedGifts"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/getUserGifts": {
+      "description": "Returns the gifts owned and hosted by a user. Returns OwnedGifts on success.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_id"
+                ],
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "exclude_unlimited": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
+                    "type": "boolean"
+                  },
+                  "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "sort_by_price": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_id"
+                ],
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "exclude_unlimited": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
+                    "type": "boolean"
+                  },
+                  "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "sort_by_price": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_id"
+                ],
+                "properties": {
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "exclude_unlimited": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
+                    "type": "boolean"
+                  },
+                  "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "sort_by_price": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "$ref": "#/components/schemas/OwnedGifts"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/getChatGifts": {
+      "description": "Returns the gifts owned by a chat. Returns OwnedGifts on success.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "exclude_unsaved": {
+                    "type": "boolean"
+                  },
+                  "exclude_saved": {
+                    "type": "boolean"
+                  },
+                  "exclude_unlimited": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
+                    "type": "boolean"
+                  },
+                  "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "sort_by_price": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "exclude_unsaved": {
+                    "type": "boolean"
+                  },
+                  "exclude_saved": {
+                    "type": "boolean"
+                  },
+                  "exclude_unlimited": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
+                    "type": "boolean"
+                  },
+                  "exclude_unique": {
+                    "type": "boolean"
+                  },
+                  "sort_by_price": {
+                    "type": "boolean"
+                  },
+                  "offset": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 100
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chat_id"
+                ],
+                "properties": {
+                  "chat_id": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "exclude_unsaved": {
+                    "type": "boolean"
+                  },
+                  "exclude_saved": {
+                    "type": "boolean"
+                  },
+                  "exclude_unlimited": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_limited_non_upgradable": {
+                    "type": "boolean"
+                  },
+                  "exclude_from_blockchain": {
                     "type": "boolean"
                   },
                   "exclude_unique": {
@@ -25356,6 +26669,157 @@
                     "items": {
                       "$ref": "#/components/schemas/StoryArea"
                     }
+                  },
+                  "post_to_chat_page": {
+                    "type": "boolean"
+                  },
+                  "protect_content": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request was successful, the result is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "$ref": "#/components/schemas/Story"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
+    "/repostStory": {
+      "description": "Reposts a story on behalf of a business account from another business account. Both business accounts must be managed by the same bot, and the story on the source account must have been posted (or reposted) by the bot. Requires the can_manage_stories business bot right for both business accounts. Returns Story on success.",
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "business_connection_id",
+                  "from_chat_id",
+                  "from_story_id",
+                  "active_period"
+                ],
+                "properties": {
+                  "business_connection_id": {
+                    "type": "string"
+                  },
+                  "from_chat_id": {
+                    "type": "integer"
+                  },
+                  "from_story_id": {
+                    "type": "integer"
+                  },
+                  "active_period": {
+                    "type": "integer"
+                  },
+                  "post_to_chat_page": {
+                    "type": "boolean"
+                  },
+                  "protect_content": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "business_connection_id",
+                  "from_chat_id",
+                  "from_story_id",
+                  "active_period"
+                ],
+                "properties": {
+                  "business_connection_id": {
+                    "type": "string"
+                  },
+                  "from_chat_id": {
+                    "type": "integer"
+                  },
+                  "from_story_id": {
+                    "type": "integer"
+                  },
+                  "active_period": {
+                    "type": "integer"
+                  },
+                  "post_to_chat_page": {
+                    "type": "boolean"
+                  },
+                  "protect_content": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "business_connection_id",
+                  "from_chat_id",
+                  "from_story_id",
+                  "active_period"
+                ],
+                "properties": {
+                  "business_connection_id": {
+                    "type": "string"
+                  },
+                  "from_chat_id": {
+                    "type": "integer"
+                  },
+                  "from_story_id": {
+                    "type": "integer"
+                  },
+                  "active_period": {
+                    "type": "integer"
                   },
                   "post_to_chat_page": {
                     "type": "boolean"
